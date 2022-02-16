@@ -9,11 +9,13 @@ const path = require("path");
 //         console.log(err)
 //         throw err
 //     }
+
 //     fs.readFile(path.join(__dirname, 'file.txt'), (err, data) => {
 //         if (err) {
 //             console.log(err)
 //             throw err
 //         }
+
 //         fs.writeFile(path.join(__dirname, 'file1.txt'), `${data}`, (err) => {
 //             if (err) {
 //                 console.log(err)
@@ -33,16 +35,19 @@ const path = require("path");
 //         console.log(err)
 //         throw err
 //     }
+
 //     fs.mkdir(path.join(__dirname, 'direct'), (err) => {
 //         if (err) {
 //             console.log(err)
 //             throw err
 //         }
+
 //         fs.writeFile(path.join(__dirname, 'direct', 'file2.txt'), `${data}`, (err) => {
 //             if (err) {
 //                 console.log(err)
 //                 throw err
 //             }
+
 //             fs.unlink(path.join(__dirname, 'file.txt'), (err) => {
 //                 if (err) {
 //                     console.log(err)
@@ -84,6 +89,7 @@ const editData = () => {
             console.log(err)
             throw err
         }
+
         data.forEach(item => {
             if (item.includes('.')) {
                 fs.truncate(path.join(__dirname, 'main', `${item}`), (err) => {
