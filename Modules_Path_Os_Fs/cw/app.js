@@ -4,30 +4,22 @@ const path = require("path");
 // 1. Спробуйте створити якийсь файл txt, прочитайте з нього дані і одразу, дані які ви отримали запишіть їх в інший файл, в вас вийде невеликий callback hell, пізніше я вам покажу
 // як можна це обійти, але поки зробіть так
 
-// const data = [
-//     {name: 'Oleg', age: 22, city: 'Lviv'},
-//     {name: 'Maria', age: 18, city: 'Rivne'},
-//     {name: 'Vova', age: 24, city: 'Kyiv'},
-//     {name: 'Vika', age: 20, city: 'Odessa'}
-// ]
-
 // fs.writeFile(path.join(__dirname, 'file.txt'), 'SOME DATA', (err) => {
 //     if (err) {
 //         console.log(err)
 //         throw err
 //     }
-// })
-//
-// fs.readFile(path.join(__dirname, 'file.txt'), (err, data) => {
-//     if (err) {
-//         console.log(err)
-//         throw err
-//     }
-//     fs.writeFile(path.join(__dirname, 'file1.txt'), `${data}`, (err) => {
+//     fs.readFile(path.join(__dirname, 'file.txt'), (err, data) => {
 //         if (err) {
 //             console.log(err)
 //             throw err
 //         }
+//         fs.writeFile(path.join(__dirname, 'file1.txt'), `${data}`, (err) => {
+//             if (err) {
+//                 console.log(err)
+//                 throw err
+//             }
+//         })
 //     })
 // })
 
@@ -46,15 +38,20 @@ const path = require("path");
 //             console.log(err)
 //             throw err
 //         }
-//     })
-//     fs.writeFile(path.join(__dirname, 'direct', 'file2.txt'), `${data}`, (err) => {
-//         if (err) {
-//             console.log(err)
-//             throw err
-//         }
+//         fs.writeFile(path.join(__dirname, 'direct', 'file2.txt'), `${data}`, (err) => {
+//             if (err) {
+//                 console.log(err)
+//                 throw err
+//             }
+//             fs.unlink(path.join(__dirname, 'file.txt'), (err) => {
+//                 if (err) {
+//                     console.log(err)
+//                     throw err
+//                 }
+//             })
+//         })
 //     })
 // })
-// а что пошло не так?
 
 // ========================================================
 
