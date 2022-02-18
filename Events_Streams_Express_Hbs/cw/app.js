@@ -12,6 +12,7 @@ let newUsers = [...users];
 let userInfo = {};
 let userId = 0;
 let countId = 1;
+let error = '';
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -59,15 +60,12 @@ app.get('/users/:id', (req, res) => {
     res.redirect('/notFound');
 });
 
-app.get('/sameEmail', (req, res) => {
-    res.render('sameEmail');
-});
-
 app.post('/login', (req, res) => {
     const sameEmail = users.some(user => user.email === req.body.email);
 
     if (sameEmail) {
-        res.redirect('/sameEmail');
+        error = 'This email is already exists';
+        res.redirect('/error');
         return;
     }
         users.push({...req.body, id: countId});
@@ -92,6 +90,10 @@ app.post('/signIn', (req, res) => {
 app.post('/userInfo', (req, res) => {
     users = users.filter(user => user.id !== userId);
     res.redirect('/users');
+});
+
+app.get('/error', (req, res) => {
+    res.render('error', {error});
 });
 
 app.use((req, res) => {
