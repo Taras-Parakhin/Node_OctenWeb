@@ -39,20 +39,23 @@ app.get('/users', (req, res) => {
         }
 
         res.render('users', {users: newUsers});
-    } else {
-        res.render('users', {users});
+        return
     }
+        res.render('users', {users});
+
 });
 
 app.get('/users/:id', (req, res) => {
     const {id} = req.params;
+    userId = +id;
 
     if (users.length && (+id <= users.length && +id > 0)) {
-        userInfo = users[id - 1];
+        userInfo = users.find(user => user.id === +id);
         res.render('userInfo', {userInfo});
     } else {
         res.redirect('/notFound');
     }
+
 });
 
 app.get('/sameEmail', (req, res) => {
@@ -64,10 +67,11 @@ app.post('/login', (req, res) => {
 
     if (sameEmail) {
         res.redirect('/sameEmail');
-    } else {
+        return;
+    }
         users.push(req.body);
         res.redirect('/users');
-    }
+
 });
 
 app.use((req, res) => {

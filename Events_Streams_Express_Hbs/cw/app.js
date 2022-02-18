@@ -11,7 +11,7 @@ let users = [];
 let newUsers = [...users];
 let userInfo = {};
 let userId = 0;
-let countId = 1
+let countId = 1;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -38,37 +38,41 @@ app.get('/users', (req, res) => {
         }
 
         res.render('users', {users: newUsers});
-    } else {
-        res.render('users', {users});
+
+        return;
     }
+        res.render('users', {users});
 });
 
 app.get('/users/:id', (req, res) => {
     const {id} = req.params;
+
     userId = +id;
 
-    if (users.length && (+id <= users.length && +id > 0)) {
+    if (users.length) {
         userInfo = users.find(user => user.id === +id);
-        res.render('userInfo', {userInfo});
-    } else {
-        res.redirect('/notFound');
+
+        userInfo ? res.render('userInfo', {userInfo}) : res.redirect('/notFound');
+
+        return;
     }
+    res.redirect('/notFound');
 });
 
 app.get('/sameEmail', (req, res) => {
     res.render('sameEmail');
-})
+});
 
 app.post('/login', (req, res) => {
-    let sameEmail = users.some(user => user.email === req.body.email)
+    const sameEmail = users.some(user => user.email === req.body.email);
 
     if (sameEmail) {
         res.redirect('/sameEmail');
-    } else {
+        return;
+    }
         users.push({...req.body, id: countId});
         countId++;
         res.redirect('/users');
-    }
 });
 
 app.get('/signIn', (req, res) => {
@@ -79,15 +83,14 @@ app.post('/signIn', (req, res) => {
     if (Object.keys(req.body).length === 2 && users.length) {
         const {email, password} = req.body;
         const user = users.find(user => user.email === email && user.password === password);
-        console.log(user)
         user ? res.redirect(`/users/${user.id}`) : res.redirect('/notFound');
-    } else {
-        res.redirect('/notFound');
+        return;
     }
+        res.redirect('/notFound');
 });
 
 app.post('/userInfo', (req, res) => {
-    users = users.filter(user => user.id !== userId)
+    users = users.filter(user => user.id !== userId);
     res.redirect('/users');
 });
 
