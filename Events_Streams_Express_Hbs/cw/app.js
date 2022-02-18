@@ -28,7 +28,6 @@ app.get('/login', (req, res) => {
 
 app.get('/users', (req, res) => {
     const {age, city} = req.query;
-    console.log(req.query)
 
     if (Object.keys(req.query).length) {
         if (age) {
