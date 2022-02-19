@@ -39,6 +39,7 @@ app.get('/users', (req, res) => {
         }
 
         res.render('users', {users: newUsers});
+
         return;
     }
 
@@ -65,7 +66,9 @@ app.post('/login', (req, res) => {
 
     if (sameEmail) {
         error = 'This email is already exists';
+
         res.redirect('/error');
+
         return;
     }
         users.push({id: users.length ? users[users.length - 1].id + 1 : 1, ...req.body});
@@ -80,7 +83,9 @@ app.post('/signIn', (req, res) => {
     if (Object.keys(req.body).length === 2 && users.length) {
         const {email, password} = req.body;
         const user = users.find(user => user.email === email && user.password === password);
+
         user ? res.redirect(`/users/${user.id}`) : res.redirect('/notFound');
+
         return;
     }
         res.redirect('/notFound');
