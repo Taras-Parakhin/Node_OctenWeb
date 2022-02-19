@@ -17,9 +17,20 @@
 <div><strong>Age: </strong>{{userInfo.age}}</div>
 <div><strong>City: </strong>{{userInfo.city}}</div>
 
-<form action="/userInfo" method="post">
-    <input type="submit" value="Delete">
-</form>
+<button class="btn">Delete</button>
+
+<script>
+
+    btn = document.getElementsByClassName('btn')[0];
+
+    btn.addEventListener('click', (e) => {
+        const id = location.href.split('/').pop();
+
+        fetch(`/users/${id}`,
+                {method: "DELETE"});
+    });
+
+</script>
 
 </body>
 </html>

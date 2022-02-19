@@ -69,7 +69,6 @@ app.post('/login', (req, res) => {
         return;
     }
         users.push({id: users.length ? users[users.length - 1].id + 1 : 1, ...req.body});
-        // countId++;
         res.redirect('/users');
 });
 
@@ -87,10 +86,13 @@ app.post('/signIn', (req, res) => {
         res.redirect('/notFound');
 });
 
-app.post('/userInfo', (req, res) => {
+app.delete('/users/:id', (req, res) => {
+    const {id} = req.params;
+
     users = users.filter(user => user.id !== userId);
+
     res.redirect('/users');
-});
+})
 
 app.get('/error', (req, res) => {
     res.render('error', {error});
