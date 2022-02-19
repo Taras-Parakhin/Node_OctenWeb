@@ -7,13 +7,6 @@ const path = require('path');
 const {engine} = require('express-handlebars');
 const app = express();
 
-let users = [];
-let newUsers = [...users];
-let userInfo = {};
-let userId = 0;
-let countId = 1;
-let error = '';
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -22,17 +15,23 @@ app.set('view engine', 'hbs');
 app.engine('hbs', engine({defaultLayout: false}));
 app.set('views', path.join(__dirname, 'static'));
 
+let users = [];
+let userInfo = {};
+let userId = 0;
+let error = '';
+
 app.get('/login', (req, res) => {
     res.render('login');
 });
 
 app.get('/users', (req, res) => {
     const {age, city} = req.query;
-    console.log(req.query)
 
     if (Object.keys(req.query).length) {
+        let newUsers = [...users];
+
         if (age) {
-            newUsers = newUsers.filter(user => user.age === +age);
+            newUsers = newUsers.filter(user => user.age === age);
         }
 
         if (city) {
@@ -40,9 +39,9 @@ app.get('/users', (req, res) => {
         }
 
         res.render('users', {users: newUsers});
-
         return;
     }
+
         res.render('users', {users});
 });
 
@@ -69,8 +68,8 @@ app.post('/login', (req, res) => {
         res.redirect('/error');
         return;
     }
-        users.push({...req.body, id: countId});
-        countId++;
+        users.push({id: users.length ? users[users.length - 1].id + 1 : 1, ...req.body});
+        // countId++;
         res.redirect('/users');
 });
 
