@@ -1,4 +1,4 @@
-const users = require('../db/users');
+let users = require('../db/users');
 
 class UserController {
     renderUsers(req, res) {
@@ -25,9 +25,10 @@ class UserController {
     }
 
     deleteUser(req, res) {
-        const {id} = req.params
+        const {id} = req.params;
 
-        users.splice(users.findIndex(user => user.id === id), 1)
+        users = users.filter(user => user.id !== Number(id));
+        // users.splice(users.findIndex(user => user.id === Number(id)), 1);
 
         res.redirect('/users');
     }
