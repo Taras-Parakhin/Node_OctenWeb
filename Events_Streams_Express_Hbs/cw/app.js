@@ -25,25 +25,14 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
-    const {age, city} = req.query;
-
     if (Object.keys(req.query).length) {
-        let newUsers = [...users];
+        const filteredUsers = users.filter(user => Object.keys(req.query).every(key => user[key] === req.query[key]));
 
-        if (age) {
-            newUsers = newUsers.filter(user => user.age === age);
-        }
-
-        if (city) {
-            newUsers = newUsers.filter(user => user.city === city);
-        }
-
-        res.render('users', {users: newUsers});
-
+        res.render('users', {users: filteredUsers});
         return;
     }
 
-        res.render('users', {users});
+    res.render('users', {users});
 });
 
 app.get('/users/:id', (req, res) => {
@@ -71,8 +60,8 @@ app.post('/login', (req, res) => {
 
         return;
     }
-        users.push({id: users.length ? users[users.length - 1].id + 1 : 1, ...req.body});
-        res.redirect('/users');
+    users.push({id: users.length ? users[users.length - 1].id + 1 : 1, ...req.body});
+    res.redirect('/users');
 });
 
 app.get('/signIn', (req, res) => {
@@ -88,16 +77,21 @@ app.post('/signIn', (req, res) => {
 
         return;
     }
-        res.redirect('/notFound');
+    res.redirect('/notFound');
 });
+
+// app.post('/userInfo', (req, res) => {
+//     users = users.filter(user => user.id !== userId)
+//     res.redirect('/users');
+// });
 
 app.delete('/users/:id', (req, res) => {
     const {id} = req.params;
 
-    users = users.filter(user => user.id !== userId);
+    users = users.filter(user => user.id !== id);
 
     res.redirect('/users');
-})
+});
 
 app.get('/error', (req, res) => {
     res.render('error', {error});
@@ -110,4 +104,5 @@ app.use((req, res) => {
 app.listen(6200, () => {
     console.log('Server has started on PORT 6200');
 });
+
 
